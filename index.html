@@ -666,8 +666,39 @@
 </div>
 
 <script>
+const CHECKBOX_STORAGE_KEY = 'busqueda-empleo-checkboxes-v1';
+
 function toggleWeek(card) {
   card.classList.toggle('open');
+}
+
+function getSavedCheckboxState() {
+  try {
+    return JSON.parse(localStorage.getItem(CHECKBOX_STORAGE_KEY)) || {};
+  } catch {
+    return {};
+  }
+}
+
+function saveCheckboxState(state) {
+  localStorage.setItem(CHECKBOX_STORAGE_KEY, JSON.stringify(state));
+}
+
+function restoreCheckboxes() {
+  const savedState = getSavedCheckboxState();
+  document.querySelectorAll('.task-item input[type="checkbox"]').forEach(cb => {
+    if (savedState[cb.id] !== undefined) cb.checked = savedState[cb.id];
+  });
+}
+
+function setupCheckboxPersistence() {
+  const savedState = getSavedCheckboxState();
+  document.querySelectorAll('.task-item input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      savedState[cb.id] = cb.checked;
+      saveCheckboxState(savedState);
+    });
+  });
 }
 
 // Prevent checkbox clicks from toggling week card
@@ -677,6 +708,9 @@ document.querySelectorAll('.task-item input').forEach(cb => {
 document.querySelectorAll('.task-item label').forEach(label => {
   label.addEventListener('click', e => e.stopPropagation());
 });
+
+restoreCheckboxes();
+setupCheckboxPersistence();
 </script>
 </body>
 </html>
