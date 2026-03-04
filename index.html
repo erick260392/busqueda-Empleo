@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Plan de Búsqueda de Empleo IT</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0d14;
+    --surface: #111520;
+    --card: #161c2d;
+    --border: #1e2a45;
+    --accent: #00e5a0;
+    --accent2: #4f8ef7;
+    --accent3: #f7c94f;
+    --text: #c8d6f0;
+    --muted: #5a6a8a;
+    --danger: #ff5f7e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,160,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,160,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    margin-bottom: 56px;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .header .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    border: 1px solid rgba(0,229,160,0.3);
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .header h1 {
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 14px;
+  }
+
+  .header h1 span { color: var(--accent); }
+
+  .header p {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* MOTIVATION BANNER */
+  .motivation-banner {
+    background: linear-gradient(135deg, rgba(0,229,160,0.08), rgba(79,142,247,0.08));
+    border: 1px solid rgba(0,229,160,0.2);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    animation: fadeUp 0.8s ease 0.1s both;
+  }
+
+  .motivation-banner .icon { font-size: 2rem; flex-shrink: 0; }
+  .motivation-banner p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .motivation-banner strong { color: var(--accent); }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 40px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .section-title .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    background: rgba(0,229,160,0.1);
+    border: 1px solid rgba(0,229,160,0.25);
+    padding: 3px 10px;
+    border-radius: 6px;
+  }
+
+  .section-title h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  /* DAILY ROUTINE */
+  .routine-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+  }
+
+  .routine-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .routine-item:hover {
+    border-color: rgba(0,229,160,0.3);
+    transform: translateY(-2px);
+  }
+
+  .routine-item .time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    font-weight: 700;
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+
+  .routine-item .info h4 {
+    font-size: 0.9rem;
+    color: #fff;
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+
+  .routine-item .info p {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .routine-item .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+
+  /* WEEK PLAN */
+  .week-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+  }
+
+  .week-card:hover { border-color: rgba(79,142,247,0.4); }
+
+  .week-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 22px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .week-header .badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+  }
+
+  .badge-blue { background: rgba(79,142,247,0.15); color: var(--accent2); border: 1px solid rgba(79,142,247,0.3); }
+  .badge-green { background: rgba(0,229,160,0.1); color: var(--accent); border: 1px solid rgba(0,229,160,0.25); }
+  .badge-yellow { background: rgba(247,201,79,0.1); color: var(--accent3); border: 1px solid rgba(247,201,79,0.25); }
+  .badge-red { background: rgba(255,95,126,0.1); color: var(--danger); border: 1px solid rgba(255,95,126,0.25); }
+
+  .week-header h3 { font-size: 0.95rem; color: #fff; font-weight: 600; flex: 1; }
+  .week-header .arrow { color: var(--muted); font-size: 0.8rem; transition: transform 0.3s; }
+  .week-card.open .week-header .arrow { transform: rotate(90deg); }
+
+  .week-body {
+    display: none;
+    padding: 0 22px 22px;
+    border-top: 1px solid var(--border);
+  }
+
+  .week-card.open .week-body { display: block; }
+
+  .task-list { padding-top: 16px; }
+
+  .task-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(30,42,69,0.5);
+    cursor: pointer;
+  }
+
+  .task-item:last-child { border-bottom: none; }
+
+  .task-item input[type="checkbox"] {
+    margin-top: 3px;
+    width: 16px; height: 16px;
+    accent-color: var(--accent);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .task-item label {
+    font-size: 0.875rem;
+    color: var(--text);
+    line-height: 1.5;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  .task-item input:checked + label {
+    color: var(--muted);
+    text-decoration: line-through;
+  }
+
+  /* RESOURCES */
+  .resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+
+  .resource-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .resource-card:hover {
+    border-color: rgba(79,142,247,0.35);
+    transform: translateY(-2px);
+  }
+
+  .resource-card .emoji { font-size: 1.5rem; margin-bottom: 10px; display: block; }
+  .resource-card h4 { font-size: 0.9rem; color: #fff; margin-bottom: 6px; font-weight: 600; }
+  .resource-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+
+  /* MENTAL HEALTH */
+  .mental-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+
+  .mental-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    border-left: 3px solid var(--accent);
+  }
+
+  .mental-card h4 { font-size: 0.9rem; color: var(--accent); margin-bottom: 8px; font-weight: 700; }
+  .mental-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+  /* PROGRESS BAR */
+  .progress-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    animation: fadeUp 0.8s ease 0.4s both;
+  }
+
+  .progress-section h3 {
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  .progress-item {
+    margin-bottom: 16px;
+  }
+
+  .progress-item .prog-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .progress-item .prog-label span {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .progress-item .prog-label strong {
+    font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    width: 0;
+    animation: fillBar 1.5s ease 0.8s forwards;
+  }
+
+  @keyframes fillBar {
+    to { width: var(--target); }
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section:nth-child(2) { animation-delay: 0.1s; }
+  .section:nth-child(3) { animation-delay: 0.2s; }
+  .section:nth-child(4) { animation-delay: 0.3s; }
+  .section:nth-child(5) { animation-delay: 0.35s; }
+  .section:nth-child(6) { animation-delay: 0.4s; }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 40px 0;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="tag">⚡ Plan Activo · Tecnología IT</div>
+    <h1>Tu Plan de<br><span>Búsqueda de Empleo</span></h1>
+    <p>Estructurado para recuperar motivación, ritmo diario y conseguir ese trabajo en IT que mereces.</p>
+  </div>
+
+  <!-- MOTIVATION BANNER -->
+  <div class="motivation-banner">
+    <div class="icon">🧠</div>
+    <p>Llevas <strong>menos de 1 mes</strong> — estás en el mejor momento para arrancar con fuerza. La búsqueda de empleo es un trabajo en sí mismo: necesita horario, estructura y descanso. <strong>No es falta de ganas, es falta de sistema.</strong> Este plan te da ese sistema.</p>
+  </div>
+
+  <!-- RUTINA DIARIA -->
+  <div class="section">
+    <div class="section-title">
+      <div class="num">01</div>
+      <h2>Rutina Diaria Anti-Parálisis</h2>
+    </div>
+    <div class="routine-grid">
+      <div class="routine-item">
+        <div class="dot" style="background:#00e5a0"></div>
+        <div class="time">07:30</div>
+        <div class="info">
+          <h4>☀️ Levantarse fijo</h4>
+          <p>Todos los días, sin excepción. Es la base de todo.</p>
+        </div>
+      </div>
+      <div class="routine-item">
+        <div class="dot" style="background:#4f8ef7"></div>
+        <div class="time">08:00</div>
+        <div class="info">
+          <h4>🏃 Ejercicio 20 min</h4>
+          <p>Caminar, saltar, lo que sea. Activa el cerebro y sube el ánimo.</p>
+        </div>
+      </div>
+      <div class="routine-item">
+        <div class="dot" style="background:#f7c94f"></div>
+        <div class="time">09:00</div>
+        <div class="info">
+          <h4>🔍 Bloque de búsqueda 1</h4>
+          <p>2h de búsqueda activa: LinkedIn, InfoJobs, Glassdoor.</p>
+        </div>
+      </div>
+      <div class="routine-item">
+        <div class="dot" style="background:#00e5a0"></div>
+        <div class="time">11:00</div>
+        <div class="info">
+          <h4>📚 Aprendizaje / Mejora CV</h4>
+          <p>1h de curso, certificación o refuerzo técnico.</p>
+        </div>
+      </div>
+      <div class="routine-item">
+        <div class="dot" style="background:#ff5f7e"></div>
+        <div class="time">13:00</div>
+        <div class="info">
+          <h4>🍽️ Descanso y comida</h4>
+          <p>Sal de casa si puedes. Desconecta de la pantalla.</p>
+        </div>
+      </div>
+      <div class="routine-item">
+        <div class="dot" style="background:#4f8ef7"></div>
+        <div class="time">15:00</div>
+        <div class="info">
+          <h4>🤝 Networking / Postulaciones</h4>
+          <p>Conectar con personas, enviar candidaturas personalizadas.</p>
+        </div>
+      </div>
+      <div class="routine-item">
+        <div class="dot" style="background:#f7c94f"></div>
+        <div class="time">17:00</div>
+        <div class="info">
+          <h4>✅ Cierre del día</h4>
+          <p>Anota lo que hiciste. Prepara 3 acciones para mañana.</p>
+        </div>
+      </div>
+      <div class="routine-item">
+        <div class="dot" style="background:#5a6a8a"></div>
+        <div class="time">20:00+</div>
+        <div class="info">
+          <h4>🎮 Tiempo libre</h4>
+          <p>Descanso real. Sin culpa. Te lo ganaste.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLAN SEMANA A SEMANA -->
+  <div class="section">
+    <div class="section-title">
+      <div class="num">02</div>
+      <h2>Plan Semana a Semana</h2>
+    </div>
+
+    <!-- Semana 1 -->
+    <div class="week-card open" onclick="toggleWeek(this)">
+      <div class="week-header">
+        <div class="badge badge-blue">Semana 1</div>
+        <h3>Cimientos — CV, LinkedIn y primeras búsquedas</h3>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="week-body">
+        <div class="task-list">
+          <div class="task-item"><input type="checkbox" id="t1"><label for="t1">Actualizar el CV: experiencia, tecnologías, logros cuantificables (ej. "Reduje tiempos de carga un 40%")</label></div>
+          <div class="task-item"><input type="checkbox" id="t2"><label for="t2">Optimizar LinkedIn con foto profesional, titular atractivo y sección "Sobre mí" orientada a empleadores</label></div>
+          <div class="task-item"><input type="checkbox" id="t3"><label for="t3">Definir 3 roles objetivo: ej. Backend Dev, DevOps, QA Engineer — y sus variantes de nombre</label></div>
+          <div class="task-item"><input type="checkbox" id="t4"><label for="t4">Crear alertas de empleo en LinkedIn, InfoJobs, Glassdoor y Tecnoempleo</label></div>
+          <div class="task-item"><input type="checkbox" id="t5"><label for="t5">Revisar el portafolio o GitHub: limpiarlo, añadir README a los proyectos principales</label></div>
+          <div class="task-item"><input type="checkbox" id="t6"><label for="t6">Enviar 5 candidaturas con carta de presentación personalizada</label></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Semana 2 -->
+    <div class="week-card" onclick="toggleWeek(this)">
+      <div class="week-header">
+        <div class="badge badge-green">Semana 2</div>
+        <h3>Networking — Conectar con el sector IT</h3>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="week-body">
+        <div class="task-list">
+          <div class="task-item"><input type="checkbox" id="t7"><label for="t7">Enviar 10 mensajes en LinkedIn a recruiters IT o profesionales del sector presentándote</label></div>
+          <div class="task-item"><input type="checkbox" id="t8"><label for="t8">Unirte a 2-3 grupos o comunidades IT: Slack de devs, Discord, grupos de LinkedIn</label></div>
+          <div class="task-item"><input type="checkbox" id="t9"><label for="t9">Contactar a ex-compañeros o conocidos del sector para pedir referencias o recomendaciones</label></div>
+          <div class="task-item"><input type="checkbox" id="t10"><label for="t10">Publicar 1 post en LinkedIn sobre algo que aprendiste o tu experiencia — genera visibilidad</label></div>
+          <div class="task-item"><input type="checkbox" id="t11"><label for="t11">Enviar 10 candidaturas nuevas (mínimo 2 personalizadas)</label></div>
+          <div class="task-item"><input type="checkbox" id="t12"><label for="t12">Hacer seguimiento de las candidaturas de la semana anterior</label></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Semana 3 -->
+    <div class="week-card" onclick="toggleWeek(this)">
+      <div class="week-header">
+        <div class="badge badge-yellow">Semana 3</div>
+        <h3>Preparación — Entrevistas técnicas y soft skills</h3>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="week-body">
+        <div class="task-list">
+          <div class="task-item"><input type="checkbox" id="t13"><label for="t13">Practicar preguntas frecuentes de entrevista IT en LeetCode, HackerRank o Codewars (30 min/día)</label></div>
+          <div class="task-item"><input type="checkbox" id="t14"><label for="t14">Preparar respuestas STAR (Situación, Tarea, Acción, Resultado) para preguntas de comportamiento</label></div>
+          <div class="task-item"><input type="checkbox" id="t15"><label for="t15">Investigar las empresas a las que más quieres entrar y personalizar tu CV para ellas</label></div>
+          <div class="task-item"><input type="checkbox" id="t16"><label for="t16">Hacer una entrevista simulada con alguien de confianza o grabar y analizar tus respuestas</label></div>
+          <div class="task-item"><input type="checkbox" id="t17"><label for="t17">Continuar enviando candidaturas: mínimo 10 esta semana</label></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Semana 4 -->
+    <div class="week-card" onclick="toggleWeek(this)">
+      <div class="week-header">
+        <div class="badge badge-red">Semana 4</div>
+        <h3>Aceleración — Ampliar radio y ajustar estrategia</h3>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="week-body">
+        <div class="task-list">
+          <div class="task-item"><input type="checkbox" id="t18"><label for="t18">Analizar qué ha funcionado: ¿qué CVs o roles recibieron más respuestas?</label></div>
+          <div class="task-item"><input type="checkbox" id="t19"><label for="t19">Explorar trabajo remoto internacional: Remote.co, We Work Remotely, Remotive.io</label></div>
+          <div class="task-item"><input type="checkbox" id="t20"><label for="t20">Valorar freelancing o proyectos pequeños para mantener el CV activo y generar ingresos</label></div>
+          <div class="task-item"><input type="checkbox" id="t21"><label for="t21">Asistir o ver un evento/meetup IT online para ampliar red de contactos</label></div>
+          <div class="task-item"><input type="checkbox" id="t22"><label for="t22">Revisar y mejorar el CV y LinkedIn con lo aprendido este mes</label></div>
+          <div class="task-item"><input type="checkbox" id="t23"><label for="t23">Continuar enviando candidaturas: mínimo 15 esta semana</label></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECURSOS IT -->
+  <div class="section">
+    <div class="section-title">
+      <div class="num">03</div>
+      <h2>Plataformas Clave para IT</h2>
+    </div>
+    <div class="resources-grid">
+      <div class="resource-card">
+        <span class="emoji">💼</span>
+        <h4>LinkedIn Jobs</h4>
+        <p>La red profesional más potente. Activa el modo "Abierto a trabajar" visible solo para reclutadores.</p>
+      </div>
+      <div class="resource-card">
+        <span class="emoji">🖥️</span>
+        <h4>Tecnoempleo</h4>
+        <p>El portal especializado en empleo tecnológico en España. Ofertas muy específicas del sector.</p>
+      </div>
+      <div class="resource-card">
+        <span class="emoji">🌍</span>
+        <h4>Remote.co / Remotive</h4>
+        <p>Trabajo remoto en empresas internacionales. Amplía enormemente las opciones disponibles.</p>
+      </div>
+      <div class="resource-card">
+        <span class="emoji">🐱</span>
+        <h4>GitHub / Portfolio</h4>
+        <p>Tu mejor carta de presentación técnica. Proyectos con README claro valen más que el CV.</p>
+      </div>
+      <div class="resource-card">
+        <span class="emoji">🧩</span>
+        <h4>LeetCode / Codewars</h4>
+        <p>Prepara las pruebas técnicas. 30 min al día marca una diferencia brutal en entrevistas.</p>
+      </div>
+      <div class="resource-card">
+        <span class="emoji">🎓</span>
+        <h4>Coursera / Udemy</h4>
+        <p>Refuerza habilidades o añade certificaciones mientras buscas. Mantiene la mente activa.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SALUD MENTAL -->
+  <div class="section">
+    <div class="section-title">
+      <div class="num">04</div>
+      <h2>Cuídate — La Motivación También se Entrena</h2>
+    </div>
+    <div class="mental-grid">
+      <div class="mental-card">
+        <h4>🎯 Metas pequeñas</h4>
+        <p>No midas el éxito por "conseguir trabajo". Mídelo por "hice 3 candidaturas hoy". Cada día cuenta.</p>
+      </div>
+      <div class="mental-card">
+        <h4>⏰ Horario fijo</h4>
+        <p>La estructura es tu aliada. Sin horario, el cerebro entra en modo supervivencia y se apaga.</p>
+      </div>
+      <div class="mental-card">
+        <h4>🚶 Sal de casa</h4>
+        <p>Al menos una vez al día. Luz natural, movimiento y cambio de ambiente recargan la energía mental.</p>
+      </div>
+      <div class="mental-card">
+        <h4>📵 Límite de pantallas</h4>
+        <p>Busca empleo con intención, no de forma infinita. 4-5h al día es suficiente. Descansa el resto.</p>
+      </div>
+      <div class="mental-card">
+        <h4>🗣️ Habla con alguien</h4>
+        <p>No cargues esto solo. Compartirlo con amigos, familia o comunidades online alivia y da perspectiva.</p>
+      </div>
+      <div class="mental-card">
+        <h4>🏆 Celebra avances</h4>
+        <p>Cada respuesta, cada entrevista, cada nuevo contacto es un avance real. Reconócelos.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PROGRESO OBJETIVO -->
+  <div class="progress-section section">
+    <h3>📊 Meta del Primer Mes</h3>
+    <div class="progress-item">
+      <div class="prog-label"><span>Candidaturas enviadas</span><strong>40+ objetivo</strong></div>
+      <div class="progress-bar"><div class="progress-fill" style="--target: 0%"></div></div>
+    </div>
+    <div class="progress-item">
+      <div class="prog-label"><span>Contactos / Networking</span><strong>20+ objetivo</strong></div>
+      <div class="progress-bar"><div class="progress-fill" style="--target: 0%"></div></div>
+    </div>
+    <div class="progress-item">
+      <div class="prog-label"><span>Horas de preparación técnica</span><strong>20h objetivo</strong></div>
+      <div class="progress-bar"><div class="progress-fill" style="--target: 0%"></div></div>
+    </div>
+    <p style="font-size:0.8rem; color: var(--muted); margin-top: 16px; font-family: 'JetBrains Mono', monospace;">// Marca las tareas de arriba para ir midiendo tu avance 🚀</p>
+  </div>
+
+</div>
+
+<script>
+function toggleWeek(card) {
+  card.classList.toggle('open');
+}
+
+// Prevent checkbox clicks from toggling week card
+document.querySelectorAll('.task-item input').forEach(cb => {
+  cb.addEventListener('click', e => e.stopPropagation());
+});
+document.querySelectorAll('.task-item label').forEach(label => {
+  label.addEventListener('click', e => e.stopPropagation());
+});
+</script>
+</body>
+</html>
